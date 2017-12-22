@@ -15,8 +15,13 @@ struct category
   std::string description;
   matador::has_many<post> posts;
 
-  category() {}
-  category(const std::string &n) : name(n) {}
+  category() = default;
+  explicit category(std::string n)
+    : category(n, "")
+  {}
+  category(std::string n, std::string desc)
+    : name(std::move(n)), description(std::move(desc))
+  {}
 
   template < class Serializer >
   void serialize(Serializer &serializer)

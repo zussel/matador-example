@@ -15,6 +15,12 @@ struct comment
   std::string content;
   matador::time created_at;  
 
+  comment() = default;
+
+  comment(std::string eml, std::string cnt)
+    : email(std::move(eml)), content(std::move(cnt))
+  {}
+
   template < class Serializer >
   void serialize(Serializer &serializer)
   {

@@ -1,7 +1,7 @@
 #include "author.hpp"
 
-author::author() {}
+using namespace matador;
 
-author::author(const std::string &name, const matador::date &birthday)
+author::author(const std::string &name, const date &birthday)
   : person(name, birthday)
 {}

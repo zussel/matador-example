@@ -13,7 +13,7 @@ struct author : public person
   // many to one
   matador::has_many<post> posts;
 
-  author();
+  author() = default;
   author(const std::string &name, const matador::date &birthday);
 
   template < class Serializer >

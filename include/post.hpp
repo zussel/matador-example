@@ -25,13 +25,9 @@ struct post
   matador::has_many<matador::varchar<255>> tags;
   std::string content;
 
-  post() {}
+  post() = default;
 
-  post(const std::string &title,
-       const matador::object_ptr<author> &autr,
-       const matador::object_ptr<category> &ctgry,
-       const std::string &cntnt
-  );
+  post(std::string title, const matador::object_ptr<author> &autr, std::string cntnt);
 
   template < class Serializer >
   void serialize(Serializer &serializer)

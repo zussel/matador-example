@@ -2,9 +2,17 @@ SET(SOURCES
   author.cpp
   person.cpp
   main.cpp
-  post.cpp)
+  post.cpp
+)
 
-ADD_EXECUTABLE(mblog ${SOURCES})
+SET(HEADER
+  ../include/author.hpp
+  ../include/category.hpp
+  ../include/comment.hpp
+  ../include/person.hpp
+  ../include/post.hpp)
+
+ADD_EXECUTABLE(mblog ${SOURCES} ${HEADER})
 
 TARGET_LINK_LIBRARIES(mblog
   matador-utils

@@ -11,8 +11,8 @@ struct person
   matador::varchar<255> name;
   matador::date birthday;
 
-  person();
-  person(const std::string &n, const matador::date &bd);
+  person() = default;
+  person(std::string n, const matador::date &bd);
 
   template < class Serializer >
   void serialize(Serializer &serializer)

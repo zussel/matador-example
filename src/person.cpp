@@ -1,7 +1,7 @@
 #include "person.hpp"
 
-person::person() {}
+using namespace matador;
 
-person::person(const std::string &n, const matador::date &bd)
-  : name(n), birthday(bd)
+person::person(std::string n, const date &bd)
+  : name(std::move(n)), birthday(bd)
 {}
