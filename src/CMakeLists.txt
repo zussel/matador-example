@@ -3,14 +3,14 @@ SET(SOURCES
   person.cpp
   main.cpp
   post.cpp
-)
+  post_service.cpp)
 
 SET(HEADER
   ../include/author.hpp
   ../include/category.hpp
   ../include/comment.hpp
   ../include/person.hpp
-  ../include/post.hpp)
+  ../include/post.hpp ../include/post_service.hpp)
 
 ADD_EXECUTABLE(mblog ${SOURCES} ${HEADER})
 

@@ -1,8 +1,9 @@
 #include <matador/orm/persistence.hpp>
 #include <matador/orm/session.hpp>
+#include <matador/object/object_expression.hpp>
 
-#include "person.hpp"
-#include "author.hpp"
+#include <post.hpp>
+#include <post_service.hpp>
 
 using namespace matador;
 
@@ -18,20 +19,56 @@ int main()
 
   p.create();
 
-  session s(p);
+  {
+    session s(p);
 
-  transaction tr = s.begin();
-  try {
-    auto me = s.insert(new author("sascha", date(29, 4, 1972)));
-    auto main = s.insert(new category("Main", "Main category"));
+    post_service pservice(s);
 
-    auto first = s.insert(new post("First post", me, "My first post content"));
+    transaction tr = s.begin();
+    try {
+      auto me = s.insert(new author("sascha", date(29, 4, 1972)));
+      auto main = s.insert(new category("Main", "Main category"));
 
-    s.push_back(first->categories, main);
+      tr.commit();
 
-    tr.commit();
-  } catch(std::exception &ex) {
-    tr.rollback();
+      pservice.add("First post", "My first post content", me, main);
+      pservice.add("Second post", "My first post content", me, main);
+      pservice.add("Third post", "My first post content", me, main);
+      pservice.add("Fourth post", "My first post content", me, main);
+
+    } catch (std::exception &ex) {
+      tr.rollback();
+    }
+  }
+
+  p.clear();
+
+  {
+    session s(p);
+
+    s.load();
+
+    using t_post_view = object_view<post>;
+    t_post_view posts(s.store());
+
+    for (const auto &p : posts) {
+      std::cout << "Post title: " << p->title << "\n";
+    }
+
+
+    // delete third post
+    auto i = std::find_if(posts.begin(), posts.end(), [](const object_ptr<post> &p) {
+      return p->title == "Third post";
+    });
+
+//    if (i != posts.end()) {
+//      auto third = *i;
+//      s.remove(third);
+//    }
+//
+//    for (const auto &p : posts) {
+//      std::cout << "Post title: " << p->title << "\n";
+//    }
   }
 
   p.drop();
