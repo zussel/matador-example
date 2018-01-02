@@ -3,7 +3,7 @@
 #include <matador/object/object_expression.hpp>
 
 #include <post.hpp>
-#include <post_service.hpp>
+#include <blog_service.hpp>
 
 using namespace matador;
 
@@ -22,19 +22,19 @@ int main()
   {
     session s(p);
 
-    post_service pservice(s);
+    blog_service blogger(s);
 
     transaction tr = s.begin();
     try {
-      auto me = s.insert(new author("sascha", date(29, 4, 1972)));
-      auto main = s.insert(new category("Main", "Main category"));
+      auto me = blogger.create_author("sascha", date(29, 4, 1972));
+      auto main = blogger.create_category("Main", "Main category");
 
       tr.commit();
 
-      pservice.add("First post", "My first post content", me, main);
-      pservice.add("Second post", "My first post content", me, main);
-      pservice.add("Third post", "My first post content", me, main);
-      pservice.add("Fourth post", "My first post content", me, main);
+      blogger.add_post("First post", "My first post content", me, main);
+      blogger.add_post("Second post", "My first post content", me, main);
+      blogger.add_post("Third post", "My first post content", me, main);
+      blogger.add_post("Fourth post", "My first post content", me, main);
 
     } catch (std::exception &ex) {
       tr.rollback();
@@ -46,29 +46,29 @@ int main()
   {
     session s(p);
 
+    blog_service blogger(s);
+
     s.load();
 
     using t_post_view = object_view<post>;
     t_post_view posts(s.store());
 
-    for (const auto &p : posts) {
-      std::cout << "Post title: " << p->title << "\n";
+    for (const auto &pst : posts) {
+      std::cout << "Post title: " << pst->title << "\n";
     }
-
 
     // delete third post
     auto i = std::find_if(posts.begin(), posts.end(), [](const object_ptr<post> &p) {
       return p->title == "Third post";
     });
 
-//    if (i != posts.end()) {
-//      auto third = *i;
-//      s.remove(third);
-//    }
-//
-//    for (const auto &p : posts) {
-//      std::cout << "Post title: " << p->title << "\n";
-//    }
+    if (i != posts.end()) {
+      blogger.remove_post(*i);
+    }
+
+    for (const auto &p : posts) {
+      std::cout << "Post title: " << p->title << "\n";
+    }
   }
 
   p.drop();
