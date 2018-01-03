@@ -63,13 +63,14 @@ int main()
       return p->title == "Third post";
     });
 
-    if (i != posts.end()) {
-      blogger.remove_post(*i);
-    }
-
-    for (const auto &p : posts) {
-      std::cout << "Post title: " << p->title << "\n";
-    }
+//    if (i != posts.end()) {
+//      blogger.remove_post(*i);
+//    }
+//
+//    posts = t_post_view(s.store());
+//    for (const auto &p : posts) {
+//      std::cout << "Post title: " << p->title << "\n";
+//    }
   }
 
   p.drop();
