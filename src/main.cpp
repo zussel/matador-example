@@ -32,9 +32,9 @@ int main()
       tr.commit();
 
       blogger.add_post("First post", "My first post content", me, main);
-      blogger.add_post("Second post", "My first post content", me, main);
-      blogger.add_post("Third post", "My first post content", me, main);
-      blogger.add_post("Fourth post", "My first post content", me, main);
+      blogger.add_post("Second post", "My second post content", me, main);
+      blogger.add_post("Third post", "My third post content", me, main);
+      blogger.add_post("Fourth post", "My fourth post content", me, main);
 
     } catch (std::exception &ex) {
       std::cout << "Caught exception: " << ex.what() << "\n";
@@ -73,7 +73,7 @@ int main()
 //    }
   }
 
-  p.drop();
+//  p.drop();
 
   return 0;
 }
