@@ -18,17 +18,10 @@ else()
     orm
   )
 
-  message(STATUS "Try to find object_store.hpp")
-
-  message(STATUS "ProgramW6432: $ENV{ProgramW6432}")
-
   set(PROGRAMFILES $ENV{ProgramFiles})
   if (DEFINED ENV{ProgramW6432})
-    message(STATUS "Setting ProgramW6432: $ENV{ProgramW6432}")
     set(PROGRAMFILES $ENV{ProgramW6432})
   endif()
-  message(STATUS "PROGRAMFILES: ${PROGRAMFILES}")
-  message(STATUS "Search path ${PROGRAMFILES}/matador/include/")
 
   find_path(MATADOR_INCLUDE_DIR matador/object/object_store.hpp
       /usr/include/
@@ -41,18 +34,8 @@ else()
       $ENV{SystemDrive}/matador/*/include/
   )
 
-  message(STATUS "MATADOR_INCLUDE_DIR ${MATADOR_INCLUDE_DIR}")
-  if(MATADOR_INCLUDE_DIR)
-    message(STATUS "found object_store.hpp")
-  else()
-    message(STATUS "can't find object_store.hpp")
-  endif()
-
   foreach(MATADOR_MODULE ${MATADOR_MODULES})
     if(WIN32)
-      message(STATUS "Try to find matador libraries")
-    
-      message(STATUS "Search path ${PROGRAMFILES}/matador/*/lib/")
 
       STRING(TOUPPER ${MATADOR_MODULE} MATADOR_MODULE_UPPER)
 
@@ -72,8 +55,6 @@ else()
         /opt/matador/lib
       )
     endif()
-
-    message(STATUS "(MATADOR_${MATADOR_MODULE_UPPER}_LIBRARY ${MATADOR_${MATADOR_MODULE_UPPER}_LIBRARY}")
 
     if (MATADOR_${MATADOR_MODULE_UPPER}_LIBRARY)
       set(MATADOR_LIBRARY_FOUND TRUE)
@@ -100,7 +81,6 @@ else()
     LIST(APPEND MATADOR_LIBRARIES ${MATADOR_${MATADOR_MODULE_UPPER}_LIBRARY})
     mark_as_advanced(MATADOR_${MATADOR_MODULE_UPPER}_LIBRARY)
   endforeach()
-  message(STATUS "MATADOR_LIBRARIES ${MATADOR_LIBRARIES}")
   mark_as_advanced(MATADOR_LIBRARIES)
 
 endif()

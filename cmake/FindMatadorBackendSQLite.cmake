@@ -9,8 +9,6 @@ if(MATADOR_BACKEND_SQLITE_LIBRARY)
 else()
 
   if(WIN32)
-    message(STATUS "Try to find matador sqlite backend")
-  
     find_library(MATADOR_BACKEND_SQLITE_LIBRARY matador-sqlite
       PATHS
       $ENV{ProgramFiles}/matador/*/lib/
@@ -28,8 +26,6 @@ else()
     )
   endif()
 
-  message(STATUS "(MATADOR_BACKEND_SQLITE_LIBRARY ${MATADOR_BACKEND_SQLITE_LIBRARY}")
-
   if(MATADOR_BACKEND_SQLITE_LIBRARY)
     set(MATADOR_BACKEND_SQLITE_FOUND TRUE)
   else()
@@ -41,7 +37,6 @@ else()
     endif ()
   endif()
 
-  message(STATUS "MATADOR_BACKEND_SQLITE_LIBRARY ${MATADOR_BACKEND_SQLITE_LIBRARY}")
   mark_as_advanced(MATADOR_BACKEND_SQLITE_LIBRARY)
 
 endif()
