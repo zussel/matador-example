@@ -10,13 +10,13 @@ SET(HEADER
   ../include/category.hpp
   ../include/comment.hpp
   ../include/person.hpp
-  ../include/post.hpp ../include/blog_service.hpp)
+  ../include/post.hpp
+  ../include/blog_service.hpp)
 
 ADD_EXECUTABLE(mblog ${SOURCES} ${HEADER})
 
 TARGET_LINK_LIBRARIES(mblog
   ${CMAKE_DL_LIBS}
   ${MATADOR_LIBRARIES}
-  ${MATADOR_BACKEND_SQLITE_LIBRARY}
   ${SQLITE3_LIBRARY}
 )
