@@ -30,6 +30,7 @@ matador::object_ptr<post> blog_service::add_post(std::string title, std::string 
 
     return first;
   } catch (std::exception &ex) {
+    std::cout << "Caught exception: " << ex.what() << "\n";
     tr.rollback();
     return matador::object_ptr<post>();
   }
@@ -48,6 +49,7 @@ bool blog_service::remove_post(matador::object_ptr<post> p)
 
     return true;
   } catch (std::exception &ex) {
+    std::cout << "Caught exception: " << ex.what() << "\n";
     tr.rollback();
     return false;
   }

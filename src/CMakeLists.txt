@@ -15,11 +15,8 @@ SET(HEADER
 ADD_EXECUTABLE(mblog ${SOURCES} ${HEADER})
 
 TARGET_LINK_LIBRARIES(mblog
-  matador-utils
-  matador-object
-  matador-sql
-  matador-orm
-  matador-sqlite
   ${CMAKE_DL_LIBS}
-  ${DB_LIBRARIES}
+  ${MATADOR_LIBRARIES}
+  ${MATADOR_BACKEND_SQLITE_LIBRARY}
+  ${SQLITE3_LIBRARY}
 )

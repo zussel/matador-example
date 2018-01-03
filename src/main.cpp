@@ -37,6 +37,7 @@ int main()
       blogger.add_post("Fourth post", "My first post content", me, main);
 
     } catch (std::exception &ex) {
+      std::cout << "Caught exception: " << ex.what() << "\n";
       tr.rollback();
     }
   }
