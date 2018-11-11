@@ -52,11 +52,11 @@ ENDIF()
 
 MESSAGE(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
-FIND_PACKAGE(SQLite3 REQUIRED)
-IF (SQLITE3_FOUND)
-  MESSAGE(STATUS "Found SQLite3 library")
+FIND_PACKAGE(MySQL REQUIRED)
+IF (MYSQL_FOUND)
+  MESSAGE(STATUS "Found MySQL library")
 ELSE ()
-  MESSAGE(FATAL_ERROR "Couldn't find SQLite3 library")
+  MESSAGE(FATAL_ERROR "Couldn't find MySQL library")
 ENDIF ()
 
 FIND_PACKAGE(Matador REQUIRED)
@@ -67,12 +67,12 @@ ELSE()
   MESSAGE(FATAL_ERROR "Couldn't find matador lib")
 ENDIF()
 
-FIND_PACKAGE(MatadorBackendSQLite REQUIRED)
+FIND_PACKAGE(MatadorBackendMySQL REQUIRED)
 
-IF(MATADOR_BACKEND_SQLITE_FOUND)
-  MESSAGE(STATUS "Found matador sqlite backend library")
+IF(MATADOR_BACKEND_MYSQL_FOUND)
+  MESSAGE(STATUS "Found matador mysql backend library")
 ELSE()
-  MESSAGE(FATAL_ERROR "Couldn't find matador sqlite backend library")
+  MESSAGE(FATAL_ERROR "Couldn't find matador mysql backend library")
 ENDIF()
 
 INCLUDE_DIRECTORIES(${MATADOR_INCLUDE_DIR} ${PROJECT_SOURCE_DIR}/include)

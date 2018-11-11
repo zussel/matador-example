@@ -9,7 +9,7 @@ using namespace matador;
 
 int main()
 {
-  persistence p("sqlite://mblog.sqlite");
+  persistence p("mysql://sascha:sascha@192.168.178.51/matador_test");
 
   p.attach<person>("person", object_store::abstract);
   p.attach<author, person>("author");
