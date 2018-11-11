@@ -36,9 +36,9 @@ struct post
     serializer.serialize("title", title);
     serializer.serialize("author", writer, matador::cascade_type::NONE);
     serializer.serialize("created_at", created_at);
-    serializer.serialize("post_category", categories, "category_id", "post_id");
-    serializer.serialize("comment", comments, "comment", "id");
-    serializer.serialize("post_tag", tags, "post_id", "tag");
+    serializer.serialize("post_category", categories, "category_id", "post_id", matador::cascade_type::INSERT);
+    serializer.serialize("comment", comments, "comment", "id", matador::cascade_type::ALL);
+    serializer.serialize("post_tag", tags, "post_id", "tag", matador::cascade_type::ALL);
     serializer.serialize("content", content);
   }
 };

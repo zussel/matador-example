@@ -29,7 +29,7 @@ struct category
     serializer.serialize("id", id);
     serializer.serialize("name", name);
     serializer.serialize("description", description);
-    serializer.serialize("post_category", posts, "category_id", "post_id");
+    serializer.serialize("post_category", posts, "category_id", "post_id", matador::cascade_type::NONE);
   }
 };
 

@@ -20,7 +20,7 @@ struct author : public person
   void serialize(Serializer &serializer)
   {
     serializer.serialize(*matador::base_class<person>(this));
-    serializer.serialize("post", posts, "post", "id");
+    serializer.serialize("post", posts, "post", "id", matador::cascade_type::NONE);
   }
 };
 
