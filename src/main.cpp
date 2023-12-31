@@ -9,9 +9,9 @@ using namespace matador;
 
 int main()
 {
-  persistence p("mysql://sascha:sascha@192.168.178.51/matador_test");
+  persistence p("mysql://root:root@127.0.0.1/matador_test");
 
-  p.attach<person>("person", object_store::abstract);
+  p.attach_abstract<person>("person");
   p.attach<author, person>("author");
   p.attach<comment>("comment");
   p.attach<category>("category");

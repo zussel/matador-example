@@ -13,6 +13,7 @@ else()
   set(MATADOR_MODULES
     unit
     utils
+    logger
     object
     sql
     orm

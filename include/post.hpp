@@ -5,41 +5,40 @@
 #include "comment.hpp"
 #include "author.hpp"
 
-#include "matador/utils/identifier.hpp"
-#include "matador/utils/varchar.hpp"
-#include "matador/utils/time.hpp"
+#include <matador/utils/time.hpp>
 
-#include "matador/object/has_many.hpp"
-#include "matador/object/belongs_to.hpp"
+#include <matador/object/container.hpp>
+#include <matador/object/object_ptr.hpp>
 
 struct author;
 
 struct post
 {
-  matador::identifier<unsigned long> id;
-  matador::varchar<255> title;
-  matador::belongs_to<author> writer;
+  unsigned long id{};
+  std::string title;
+  matador::object_ptr<author> writer;
   matador::time created_at;
-  matador::has_many<category> categories;
-  matador::has_many<comment> comments;
-  matador::has_many<matador::varchar<255>> tags;
+  matador::container<category> categories;
+  matador::container<comment> comments;
+  matador::container<std::string> tags;
   std::string content;
 
-  post() = default;
+  post();
 
   post(std::string title, const matador::object_ptr<author> &autr, std::string cntnt);
 
-  template < class Serializer >
-  void serialize(Serializer &serializer)
+  template < class Operator >
+  void process(Operator &op)
   {
-    serializer.serialize("id", id);
-    serializer.serialize("title", title);
-    serializer.serialize("author", writer, matador::cascade_type::NONE);
-    serializer.serialize("created_at", created_at);
-    serializer.serialize("post_category", categories, "category_id", "post_id", matador::cascade_type::INSERT);
-    serializer.serialize("comment", comments, "comment", "id", matador::cascade_type::ALL);
-    serializer.serialize("post_tag", tags, "post_id", "tag", matador::cascade_type::ALL);
-    serializer.serialize("content", content);
+      namespace field = matador::access;
+      field::primary_key(op, "id", id);
+      field::attribute(op, "title", title, 255);
+      field::belongs_to(op, "author", writer, matador::cascade_type::NONE);
+      field::attribute(op, "created_at", created_at);
+      field::has_many(op, "post_category", categories, "category_id", "post_id", matador::cascade_type::INSERT);
+      field::has_many(op, "comment", comments, "comment", "id", matador::cascade_type::ALL);
+      field::has_many(op, "post_tag", tags, "post_id", "tag", matador::cascade_type::ALL);
+      field::attribute(op, "content", content);
   }
 };
 

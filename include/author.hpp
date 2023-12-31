@@ -4,23 +4,24 @@
 #include "person.hpp"
 #include "post.hpp"
 
-#include <matador/object/has_many.hpp>
+#include <matador/object/container.hpp>
 
 #include <matador/utils/base_class.hpp>
 
 struct author : public person
 {
   // many to one
-  matador::has_many<post> posts;
+  matador::container<post> posts;
 
   author() = default;
   author(const std::string &name, const matador::date &birthday);
 
-  template < class Serializer >
-  void serialize(Serializer &serializer)
+  template < class Operator >
+  void process(Operator &op)
   {
-    serializer.serialize(*matador::base_class<person>(this));
-    serializer.serialize("post", posts, "post", "id", matador::cascade_type::NONE);
+      namespace field = matador::access;
+      field::process(op, *matador::base_class<person>(this));
+      field::has_many(op, "post", posts, "post", "id", matador::cascade_type::NONE);
   }
 };
 

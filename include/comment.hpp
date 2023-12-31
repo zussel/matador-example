@@ -1,17 +1,15 @@
 #ifndef COMMENT_HPP
 #define COMMENT_HPP
 
-#include "matador/utils/identifier.hpp"
-#include "matador/utils/varchar.hpp"
-#include "matador/utils/time.hpp"
+#include <matador/utils/time.hpp>
 
-#include "matador/object/belongs_to.hpp"
+#include <matador/object/object_ptr.hpp>
 
 struct comment
 {
-  matador::identifier<unsigned long> id;
-  matador::varchar<255> email;
-  matador::belongs_to<post> blog_post;
+  unsigned long id{};
+  std::string email;
+  matador::object_ptr<post> blog_post;
   std::string content;
   matador::time created_at;  
 
@@ -21,14 +19,15 @@ struct comment
     : email(std::move(eml)), content(std::move(cnt))
   {}
 
-  template < class Serializer >
-  void serialize(Serializer &serializer)
+  template < class Operator >
+  void process(Operator &op)
   {
-    serializer.serialize("id", id);
-    serializer.serialize("email", email);
-    serializer.serialize("post", blog_post, matador::cascade_type::NONE);
-    serializer.serialize("content", content);
-    serializer.serialize("created_at", created_at);
+      namespace field = matador::access;
+      field::primary_key(op, "id", id);
+      field::attribute(op, "email", email, 255);
+      field::belongs_to(op, "post", blog_post, matador::cascade_type::NONE);
+      field::attribute(op, "content", content);
+      field::attribute(op, "created_at", created_at);
   }
 };
 

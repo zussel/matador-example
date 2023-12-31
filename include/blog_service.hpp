@@ -13,7 +13,7 @@ struct blog_service
 {
   explicit blog_service(matador::session &ses);
 
-  matador::object_ptr<author> create_author(const std::string &name, matador::date birthday);
+  matador::object_ptr<author> create_author(const std::string &name, const matador::date& birthday);
   matador::object_ptr<category> create_category(const std::string &name, const std::string &desc);
 
   matador::object_ptr<post> add_post(std::string title, std::string content,

@@ -1,25 +1,25 @@
 #ifndef PERSON_HPP
 #define PERSON_HPP
 
-#include <matador/utils/identifier.hpp>
-#include <matador/utils/varchar.hpp>
+#include <matador/utils/access.hpp>
 #include <matador/utils/date.hpp>
 
 struct person
 {
-  matador::identifier<unsigned long> id;
-  matador::varchar<255> name;
+  unsigned long id{};
+  std::string name;
   matador::date birthday;
 
   person() = default;
   person(std::string n, const matador::date &bd);
 
-  template < class Serializer >
-  void serialize(Serializer &serializer)
+  template < class Operator >
+  void process(Operator &op)
   {
-    serializer.serialize("id", id);
-    serializer.serialize("name", name);
-    serializer.serialize("birthday", birthday);
+      namespace field = matador::access;
+      field::primary_key(op, "id", id);
+      field::attribute(op, "name", name, 255);
+      field::attribute(op, "birthday", birthday);
   }
 };
 
